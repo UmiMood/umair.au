@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Umair | Terminal</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background-color: black;
+      color: #00ff00;
+      font-family: 'Courier New', Courier, monospace;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .terminal {
+      max-width: 800px;
+      padding: 2rem;
+      white-space: pre-wrap;
+    }
+
+    .line {
+      display: block;
+      opacity: 0;
+      animation: fadeIn 0.2s forwards;
+    }
+
+    .prompt::before {
+      content: "➜ ";
+      color: #00ff00;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      background-color: #00ff00;
+      animation: blink 1s step-start infinite;
+      margin-left: 2px;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
+
+    a {
+      color: #00ff00;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="terminal" id="terminal">
+    <!-- Lines will be inserted by JavaScript -->
+  </div>
+
+  <script>
+    const lines = [
+      'Hi it’s Umair, drop a message <a href="mailto:hello@umair.au">hello@umair.au</a>',
+      'Let’s build cool stuff together.'
+    ];
+
+    const terminal = document.getElementById('terminal');
+
+    let index = 0;
+
+    function typeLine() {
+      if (index >= lines.length) return;
+
+      const line = document.createElement('div');
+      line.className = 'line prompt';
+      line.innerHTML = lines[index] + '<span class="cursor"></span>';
+      terminal.appendChild(line);
+
+      setTimeout(() => {
+        const cursor = line.querySelector('.cursor');
+        if (cursor) cursor.remove(); // remove blinking cursor from previous line
+        index++;
+        typeLine();
+      }, 1500);
+    }
+
+    typeLine();
+  </script>
+</body>
+</html>
+
